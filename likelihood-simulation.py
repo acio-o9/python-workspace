@@ -75,9 +75,9 @@ class LikelihoodSimulator(object):
         self.pList = np.arange(0, 1, 0.005)
         
         # 尤度を決定する
-        positiveEventCount = result.count(1)
-        negativeEventCount = result.count(0)
-        self.likelihood = pList**positiveEventCount * (1-pList)**negativeEventCount
+        self.positiveEventCount = result.count(1)
+        self.negativeEventCount = result.count(0)
+        self.likelihood = pList**self.positiveEventCount * (1-pList)**self.negativeEventCount
     
     def showEventStatus(self):
         """
@@ -119,6 +119,7 @@ class LikelihoodSimulator(object):
 
 res = [1,1,1,1,0,0,1,0,1,1,1,1,1,0,0,1,1]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
@@ -127,6 +128,7 @@ simulator.showLikelihoodGraph()
 
 res = [0,0,0,0,0,0,0]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
@@ -135,6 +137,7 @@ simulator.showLikelihoodGraph()
 
 res = [0,0,0,0,0,0,0,1,1,1,1]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
