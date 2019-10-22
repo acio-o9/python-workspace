@@ -119,6 +119,7 @@ class LikelihoodSimulator(object):
 
 res = [1,1,1,1,0,0,1,0,1,1,1,1,1,0,0,1,1]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
@@ -127,6 +128,7 @@ simulator.showLikelihoodGraph()
 
 res = [0,0,0,0,0,0,0]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
@@ -135,6 +137,7 @@ simulator.showLikelihoodGraph()
 
 res = [0,0,0,0,0,0,0,1,1,1,1]
 simulator = LikelihoodSimulator(res)
+simulator.showEventStatus()
 simulator.showLikelihoodGraph()
 
 
