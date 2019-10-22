@@ -96,6 +96,23 @@ class LikelihoodSimulator(object):
         plt.ylabel('likelihood')
         plt.show()
 
+        self.getMaxLikelihood()
+
+    def getMaxLikelihood(self):
+        """
+        尤度が最大になる正事象を返す
+        """
+        maxl = -1
+        maxp = 0
+
+        for p, l in zip(self.pList, self.likelihood):
+            if (maxl < l):
+                maxl = l
+                maxp = p
+
+        print('max likelihood: %.10f' % maxl)
+        print('then p:', maxp)
+
 
 # In[ ]:
 
