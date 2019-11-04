@@ -30,7 +30,7 @@ scaler = StandardScaler()
 X = iris.data
 y = iris.target
 
-# ４：１にデータを分割
+# 40%:60%にデータを分割
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.6, random_state=1)
 
 # トレーニングデータでscalerを更新
