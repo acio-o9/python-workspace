@@ -35,7 +35,55 @@ train_data.head()
 # In[ ]:
 
 
-features = ['Pclass', "Sex", "SibSp", "Parch"]
+# 年齢を年齢帯に変更する
+# pandas.cutを使用して連続値を離散値として扱うようにする
+train_data['AgeBand'] = pd.cut(train_data['Age'], 5)
+train_data[['AgeBand', 'Survived']].groupby(['AgeBand'], as_index=False).mean().sort_values(by='AgeBand', ascending=True)
+
+
+# In[ ]:
+
+
+# AgeBandの境界値で年齢帯に変更する
+train_data.loc[ train_data['Age'] <= 16, 'Age'] = 0
+train_data.loc[ (train_data['Age'] > 16) & (train_data['Age'] <= 32), 'Age'] = 1
+train_data.loc[ (train_data['Age'] > 32) & (train_data['Age'] <= 48), 'Age'] = 2
+train_data.loc[ (train_data['Age'] > 48) & (train_data['Age'] <= 64), 'Age'] = 3
+train_data.loc[ train_data['Age'] > 64, 'Age'] = 4
+train_data.head()
+
+
+# In[ ]:
+
+
+# データの欠損値を埋める
+# 一番多い年齢帯を中央値として欠損値を補う
+train_data.isnull().sum()
+
+
+# In[ ]:
+
+
+train_data.groupby('Age').size()
+
+
+# In[ ]:
+
+
+# 一番ウェイトの大きい年齢帯1（16 - 32歳）で欠損値を埋める
+train_data['Age'] = train_data['Age'].fillna(1)
+
+
+# In[ ]:
+
+
+train_data.groupby('Age').size()
+
+
+# In[ ]:
+
+
+features = ['Pclass', "Sex", "SibSp", "Parch", 'Age']
 y = train_data.Survived
 X = pd.get_dummies(train_data[features])
 
