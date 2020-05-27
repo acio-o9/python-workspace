@@ -13,7 +13,14 @@ import numpy as np
 train_data = pd.read_csv('drive/My Drive/train_data/titanic_train.csv')
 train_data.head()
 
-X = pd.DataFrame(train_data.iloc[:, 2]) # Pclass 
+train_data.isnull().sum()
+
+# preprocessing
+sex_mapping = {'male': 1, 'female': 0}
+train_data['Sex'] = train_data['Sex'].map(sex_mapping)
+train_data.head()
+
+X = pd.DataFrame(train_data[['Pclass', 'Sex']])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
 print(X.shape)
 print(y.shape)
