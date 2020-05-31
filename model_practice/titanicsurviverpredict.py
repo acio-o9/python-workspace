@@ -74,6 +74,16 @@ train_data[['Embarked', 'Survived']].groupby('Embarked', as_index=False).mean().
 embarked_mapping = {"C": 1, "Q": 2, "S": 3}
 train_data['Embarked'] = train_data['Embarked'].map(embarked_mapping).astype(int)
 
+train_data['FareBand'] = pd.cut(train_data['Fare'], 5)
+train_data[['FareBand', 'Survived']].groupby('FareBand', as_index=False).mean().sort_values('FareBand')
+
+train_data.loc[ train_data['Fare'] <= 102.466, 'Fare'] = 0
+train_data.loc[ (train_data['Fare'] > 102.466) & (train_data['Fare'] <= 204.932), 'Fare'] = 1
+train_data.loc[ (train_data['Fare'] > 204.932) & (train_data['Fare'] <= 307.398), 'Fare'] = 2
+train_data.loc[ (train_data['Fare'] > 307.398), 'Fare'] = 3
+
+train_data[['Fare', 'Survived']].groupby('Fare').mean()
+
 feature_label = [
                  'Pclass',
                  'Sex',
@@ -84,7 +94,7 @@ feature_label = [
 ]
 X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
-X.head()
+X.describe()
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=FIXED_RESULT)
