@@ -75,10 +75,9 @@ print(X_train.shape)
 print(X_test.shape)
 
 # modeling
-from sklearn.linear_model import LogisticRegression
-model = LogisticRegression(random_state=FIXED_RESULT)
-model.fit(X_train, y_train)
-
+from sklearn.ensemble import RandomForestClassifier
+forest = RandomForestClassifier(n_estimators=500, random_state=FIXED_RESULT)
+forest.fit(X_train, y_train)
 # prediction
-print(model.score(X_test, y_test))
+forest.score(X_test, y_test)
 
