@@ -37,5 +37,4 @@ model = LogisticRegression(random_state=FIXED_RESULT)
 model.fit(X_train, y_train)
 
 # prediction
-print(model.score(X_train, y_train))
-
+print(model.score(X_test, y_test))
