@@ -52,6 +52,7 @@ feature_label = [
                  'Pclass',
                  'Sex',
                  'Age',
+                 'SibSp',
 ]
 X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
