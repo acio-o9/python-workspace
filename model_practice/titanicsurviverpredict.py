@@ -58,12 +58,29 @@ train_data['IsAlone'] = 0
 train_data.loc[train_data['FamilySize'] == 1, 'IsAlone'] = 1
 train_data[['IsAlone', 'Survived']].groupby('IsAlone').mean().sort_values(by='Survived', ascending=False)
 
+train_data['Embarked'].isnull().sum()
+
+print('total size:', len(train_data))
+train_data[['Embarked', 'Survived']].groupby('Embarked').count()
+
+168+77+644
+
+# null record fills frequency value 'S'
+train_data.loc[train_data.Embarked.isnull(), 'Embarked'] = 'S'
+train_data[['Embarked', 'Survived']].groupby('Embarked').count()
+
+train_data[['Embarked', 'Survived']].groupby('Embarked', as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+embarked_mapping = {"C": 1, "Q": 2, "S": 3}
+train_data['Embarked'] = train_data['Embarked'].map(embarked_mapping).astype(int)
+
 feature_label = [
                  'Pclass',
                  'Sex',
                  'Age',
                  'IsAlone',
                  'Fare',
+                 'Embarked',
 ]
 X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
