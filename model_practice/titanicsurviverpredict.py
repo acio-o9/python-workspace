@@ -84,6 +84,20 @@ train_data.loc[ (train_data['Fare'] > 307.398), 'Fare'] = 3
 
 train_data[['Fare', 'Survived']].groupby('Fare').mean()
 
+train_data['Title'] = train_data.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
+pd.crosstab(train_data['Title'], train_data['Sex'])
+
+train_data['Title'] = train_data['Title'].replace(['Lady', 'Countess','Capt', 'Col', 'Don', 'Dr', 'Major', 'Rev', 'Sir', 'Jonkheer', 'Dona'], 'Rare')
+train_data['Title'] = train_data['Title'].replace('Mlle', 'Miss')
+train_data['Title'] = train_data['Title'].replace('Ms', 'Miss')
+train_data['TItle'] = train_data['Title'].replace('Mme', 'Mrs')
+
+train_data[['Title', 'Survived']].groupby('Title', as_index=False).mean()
+
+title_mapping = {'Mr': 1, 'Miss': 2, 'Mrs': 3, 'Master': 4, 'Rare': 5}
+train_data['Title'] = train_data['Title'].map(title_mapping)
+train_data['Title'] = train_data['Title'].fillna(0)
+
 feature_label = [
                  'Pclass',
                  'Sex',
@@ -91,6 +105,7 @@ feature_label = [
                  'IsAlone',
                  'Fare',
                  'Embarked',
+                 'Title',
 ]
 X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
@@ -107,4 +122,6 @@ forest = RandomForestClassifier(n_estimators=500, random_state=FIXED_RESULT)
 forest.fit(X_train, y_train)
 # prediction
 forest.score(X_test, y_test)
+
+forest.feature_importances_
 
