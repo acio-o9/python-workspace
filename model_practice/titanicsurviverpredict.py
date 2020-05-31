@@ -51,16 +51,22 @@ train_data.loc[ (train_data['Age'] > 48) & (train_data['Age'] <= 64), 'Age'] = 3
 train_data.loc[ train_data['Age'] > 64, 'Age']
 train_data.head()
 
+train_data['FamilySize'] = train_data['SibSp'] + train_data['Parch'] + 1
+train_data[['FamilySize', 'Survived']].groupby(['FamilySize'], as_index=False).mean().sort_values(by='Survived', ascending=False)
+
+train_data['IsAlone'] = 0
+train_data.loc[train_data['FamilySize'] == 1, 'IsAlone'] = 1
+train_data[['IsAlone', 'Survived']].groupby('IsAlone').mean().sort_values(by='Survived', ascending=False)
+
 feature_label = [
                  'Pclass',
                  'Sex',
                  'Age',
-                 'SibSp',
+                 'IsAlone',
 ]
 X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
-print(X.shape)
-print(y.shape)
+X.head()
 
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=FIXED_RESULT)
