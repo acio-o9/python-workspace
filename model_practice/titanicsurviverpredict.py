@@ -48,7 +48,7 @@ train_data.loc[ train_data['Age'] <= 16, 'Age'] = 0
 train_data.loc[ (train_data['Age'] > 16) & (train_data['Age'] <= 32), 'Age'] = 1
 train_data.loc[ (train_data['Age'] > 32) & (train_data['Age'] <= 48), 'Age'] = 2
 train_data.loc[ (train_data['Age'] > 48) & (train_data['Age'] <= 64), 'Age'] = 3
-train_data.loc[ train_data['Age'] > 64, 'Age']
+train_data.loc[ train_data['Age'] > 64, 'Age'] = 4
 train_data.head()
 
 train_data['FamilySize'] = train_data['SibSp'] + train_data['Parch'] + 1
