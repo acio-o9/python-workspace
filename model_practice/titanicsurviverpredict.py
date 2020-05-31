@@ -21,7 +21,39 @@ sex_mapping = {'male': 1, 'female': 0}
 train_data['Sex'] = train_data['Sex'].map(sex_mapping)
 train_data.head()
 
-X = pd.DataFrame(train_data[['Pclass', 'Sex']])
+# guess Age by Sex and Pclass for no Age 
+guess_ages = np.zeros((2,3))
+
+for i in range(0, 2):
+    for j in range(0, 3):
+        guess_df = train_data[(train_data['Sex'] == i) & (train_data['Pclass'] == j+1)]['Age'].dropna()
+        age_guess = guess_df.median()
+        guess_ages[i, j] = int( age_guess/0.5 + 0.5 ) * 0.5
+
+for i in range(0, 2):
+    for j in range(0, 3):
+        # fill guess_ages
+        train_data.loc[ (train_data.Age.isnull()) & (train_data.Sex == i) & (train_data.Pclass == j+1), 'Age'] = guess_ages[i, j]
+
+train_data['Age'] = train_data['Age'].astype(int)
+train_data.head()
+
+train_data['AgeBand'] = pd.cut(train_data['Age'], 5)
+train_data[['AgeBand', 'Survived']].groupby(['AgeBand'], as_index=False).mean().sort_values(by='AgeBand', ascending=True)
+
+train_data.loc[ train_data['Age'] <= 16, 'Age'] = 0
+train_data.loc[ (train_data['Age'] > 16) & (train_data['Age'] <= 32), 'Age'] = 1
+train_data.loc[ (train_data['Age'] > 32) & (train_data['Age'] <= 48), 'Age'] = 2
+train_data.loc[ (train_data['Age'] > 48) & (train_data['Age'] <= 64), 'Age'] = 3
+train_data.loc[ train_data['Age'] > 64, 'Age']
+train_data.head()
+
+feature_label = [
+                 'Pclass',
+                 'Sex',
+                 'Age',
+]
+X = pd.DataFrame(train_data[feature_label])
 y = pd.DataFrame(train_data.iloc[:, 1]) # Survived
 print(X.shape)
 print(y.shape)
