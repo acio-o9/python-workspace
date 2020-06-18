@@ -1,0 +1,10 @@
+version: "3"
+services:
+    python:
+        build: ./python
+        container_name: python
+        volumes:
+            - ./src:/workspace
+        command: /bin/bash
+        tty: true
+        stdin_open: true
