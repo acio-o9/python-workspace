@@ -35,8 +35,6 @@ class SoupMaker:
             html = self.browser.page_source.encode('utf-8')
             soup = BeautifulSoup(html, "html.parser")
 
-            self.browser.close()
-            self.browser.quit()
         except:
             self.browser.close()
             self.browser.quit()
@@ -46,12 +44,16 @@ class SoupMaker:
         time.sleep(1)
         return soup, pageSize
 
+    def quit(self):
+        self.browser.close()
+        self.browser.quit()
+
     def __getPageSize(self, soup):
 
         pageString = soup.find(
                 "div",
                 {"class": ""}).text
-        matchObject = re.search(r'[1-9][0-9]+', pageString)
+        matchObject = re.search(r'[1-9][0-9]*', pageString)
         total = int(matchObject.group())
 
         pageSize, mod = divmod(total, self.PAGE_PER_ESTATE)

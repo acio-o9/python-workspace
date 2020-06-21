@@ -13,6 +13,7 @@ try:
     soup, pageSize = maker.make()
 
 except:
+    maker.quit()
     print('request failed.', sys.exc_info()[0])
     exit()
 
@@ -24,10 +25,12 @@ for html in maker.findEstateTags(soup):
 # search more page estates
 for page in range(2, pageSize + 1):
     print('processing on page:', page)
-    maker = SoupMaker(url + '?page=' + str(page))
+    maker.url = url + '?page=' + str(page)
     soup, _ = maker.make()
     for html in maker.findEstateTags(soup):
         estates.append(Estate(html))
+
+maker.quit()
 
 for estate in estates:
     print(estate.toString())
