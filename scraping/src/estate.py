@@ -31,8 +31,9 @@ class Estate:
         """
         price = tag.find(
             "li",
-            {"class": ""})
-        self.__price = price.text
+            {"class": ""}).text
+        temp = price[:-2]
+        self.__price = int(temp.replace(',', '')) * 10000
 
     def __setMoreInfo(self, tag):
         """
@@ -60,21 +61,24 @@ class Estate:
         Args:
             tag (bs4:element.Tag): model tag
         """
-        self.__buildAt = text
+        temp = text[1:][:-1]
+        self.__buildAt = temp
 
     def __setEstateSize(self, text):
         """
         Args:
             tag (bs4:element.Tag): model tag
         """
-        self.__estateSize = text
+        temp = text[:-1]
+        self.__estateSize = temp
 
     def __setGroundSize(self, text):
         """
         Args:
             tag (bs4:element.Tag): model tag
         """
-        self.__groundSize = text
+        temp = text[:-1]
+        self.__groundSize = temp
 
     def toString(self):
         """this attributes output as csv
@@ -83,9 +87,9 @@ class Estate:
             string: as csv of a record
         """
         return ",".join([
-            self.__price,
-            self.__roomType,
-            self.__buildAt,
-            self.__estateSize,
-            self.__groundSize
+            str(self.__price),
+            str(self.__roomType),
+            str(self.__buildAt),
+            str(self.__estateSize),
+            str(self.__groundSize),
         ])
