@@ -1,10 +1,10 @@
-import soupMaker
-import estate
+from soupMaker import SoupMaker
+from estate import Estate
 
 soup = ''
 
 url = ''
-maker = soupMaker.SoupMaker(url)
+maker = SoupMaker(url)
 
 try:
     print('process start.')
@@ -17,7 +17,7 @@ except:
 # get estates list
 estates = []
 for html in soup.find_all("div", {"class": ""}):
-    estates.append(estate.Estate(html))
+    estates.append(Estate(html))
 
 for estate in estates:
     print(estate.toString())
